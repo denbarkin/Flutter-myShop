@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/product.dart';
+import '../providers/Cart.dart';
 import 'package:shopapp/screens/product_detail_screen.dart';
 
 class ProductItem extends StatelessWidget {
@@ -11,6 +12,8 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
+
     print('+++ Detech number of times call isFavorite product calls;');
 
     return ClipRRect(
@@ -33,7 +36,7 @@ class ProductItem extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
-              return;
+              cart.addItem(product.id, product.title, product.price);
             },
           ),
           backgroundColor: Colors.black87,

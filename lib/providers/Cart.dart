@@ -18,6 +18,18 @@ class CartItem {
 class Cart with ChangeNotifier {
   Map<String, CartItem> _items = {};
 
+  int get itemCount {
+    return _items.length;
+  }
+
+  double get totalPrice {
+    double total = 0.0;
+    _items.forEach((key, cart) {
+      total += cart.price * cart.quantity;
+    });
+    return total;
+  }
+
   void addItem(
     String productId,
     String title,
@@ -41,5 +53,6 @@ class Cart with ChangeNotifier {
           () =>
               CartItem(id: productId, title: title, price: price, quantity: 1));
     }
+    notifyListeners();
   }
 }
