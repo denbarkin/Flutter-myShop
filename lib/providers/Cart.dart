@@ -1,5 +1,6 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CartItem {
   final String id;
@@ -16,10 +17,14 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  Map<String, CartItem> _items = {};
+  final Map<String, CartItem> _items = {};
 
   int get itemCount {
     return _items.length;
+  }
+
+  Map<String, CartItem> get items {
+    return {..._items};
   }
 
   double get totalPrice {
@@ -53,6 +58,14 @@ class Cart with ChangeNotifier {
           () =>
               CartItem(id: productId, title: title, price: price, quantity: 1));
     }
+    notifyListeners();
+  }
+
+  void removeItem(String productId) {
+    print(productId);
+
+    _items.remove(productId);
+
     notifyListeners();
   }
 }
