@@ -4,9 +4,9 @@ import 'package:shopapp/widgets/product_item.dart';
 import '../providers/products.dart';
 
 class ProductsGrid extends StatelessWidget {
-  bool showFavs;
-  ProductsGrid({super.key, this.showFavs = false});
+  final bool showFavs;
 
+  const ProductsGrid({super.key, this.showFavs = false});
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);

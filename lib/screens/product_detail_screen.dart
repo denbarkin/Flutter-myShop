@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../providers/products.dart';
-import '../providers/product.dart';
 
 class ProductDetail extends StatelessWidget {
   const ProductDetail({super.key});
@@ -10,17 +10,50 @@ class ProductDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productId = ModalRoute.of(context)?.settings.arguments as String;
-
-    // listen: false
-    // if notifyListeners for Products called this object not redraw/build itself.
-    //
-    final Product? product =
-        Provider.of<Products>(context, listen: false).findById((productId));
-
+    final productId =
+        ModalRoute.of(context)?.settings.arguments as String; // is the id!
+    final loadedProduct = Provider.of<Products>(
+      context,
+      listen: false,
+    ).findById(productId);
     return Scaffold(
-      appBar: AppBar(title: Text(product?.title ?? "Not Found !!!")),
-      body: Text('DetailPage ${product?.description ?? "N/A"}'),
+      appBar: AppBar(
+        title: Text(loadedProduct!.title),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 300,
+              width: double.infinity,
+              child: Image.network(
+                loadedProduct.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '\$${loadedProduct.price}',
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 20,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              width: double.infinity,
+              child: Text(
+                loadedProduct.description,
+                textAlign: TextAlign.center,
+                softWrap: true,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
