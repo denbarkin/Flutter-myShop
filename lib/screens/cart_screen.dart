@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopapp/screens/orders_screen.dart';
 
-import '../providers/Cart.dart' show Cart;
+import '../providers/Cart.dart' show Cart; // Gets only Chart Class in the file.
 import '../widgets/cart_item.dart';
+import '../providers/orders.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/Cart';
@@ -36,7 +38,13 @@ class CartScreen extends StatelessWidget {
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w800),
                   )),
-                  TextButton(onPressed: (() {}), child: const Text('ORDER NOW'))
+                  TextButton(
+                      onPressed: (() {
+                        Provider.of<Orders>(context, listen: false).addOrder(
+                            cart.items.values.toList(), cart.totalPrice);
+                        cart.clear();
+                      }),
+                      child: const Text('ORDER NOW'))
                 ],
               )),
         ),
